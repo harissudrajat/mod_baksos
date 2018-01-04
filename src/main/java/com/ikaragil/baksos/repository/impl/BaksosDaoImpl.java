@@ -16,8 +16,8 @@ import java.util.List;
 public class BaksosDaoImpl implements BaksosDao {
 
     /*QUERY*/
-    private static final String create = "INSERT INTO baksos (kode,deskripsi,tgl_baksos,id_jenis,longtitude, latitude,alamat,id_pj,id_korwil,id_keadaan,id_barang,qty,satuan,tgl_input,id_user,ket) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    private static final String update = "UPDATE baksos SET kode=?, deskripsi=?, tgl_baksos=?, id_jenis=?, longtitude=?, latitude=?, alamat=?, id_pj=?, id_korwil=?, id_keadaan=?, id_barang=?, qty=?, satuan=?, tgl_input=?, id_user=?,ket=? WHERE id=?";
+    private static final String create = "INSERT INTO baksos (kode,deskripsi,tgl_baksos,id_jenis,longitude, latitude,alamat,id_pj,id_korwil,id_keadaan,id_barang,qty,satuan,tgl_input,id_user,ket) VALUE (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String update = "UPDATE baksos SET kode=?, deskripsi=?, tgl_baksos=?, id_jenis=?, longitude=?, latitude=?, alamat=?, id_pj=?, id_korwil=?, id_keadaan=?, id_barang=?, qty=?, satuan=?, tgl_input=?, id_user=?,ket=? WHERE id=?";
     private static final String delete = "DELETE FROM baksos WHERE id=?";
     private static final String orderByNama = "SELECT * FROM baksos ORDER BY kode";
     private static final String findAll = "SELECT * FROM baksos";
@@ -46,8 +46,6 @@ public class BaksosDaoImpl implements BaksosDao {
                 baksos.getAlamat(),
                 baksos.getId_penanggungjawab(),
                 baksos.getId_korwil(),
-                baksos.getId_korwil(),
-                baksos.getId_keadaan(),
                 baksos.getId_keadaan(),
                 baksos.getId_barang(),
                 baksos.getQuantity(),
@@ -70,8 +68,6 @@ public class BaksosDaoImpl implements BaksosDao {
                 baksos.getAlamat(),
                 baksos.getId_penanggungjawab(),
                 baksos.getId_korwil(),
-                baksos.getId_korwil(),
-                baksos.getId_keadaan(),
                 baksos.getId_keadaan(),
                 baksos.getId_barang(),
                 baksos.getQuantity(),
@@ -99,8 +95,8 @@ public class BaksosDaoImpl implements BaksosDao {
     }
 
     @Override
-    public List<Baksos> findByNama(String nama) {
-        return jdbc.query(findByNama, new Object[]{nama}, new BaksosRowMapper());
+    public List<Baksos> findByKode(String kode) {
+        return jdbc.query(findByNama, new Object[]{kode}, new BaksosRowMapper());
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface BaseDao<T> {
     int delete(T t);
     List<T> orderByNama();
     List<T> findById(Integer id);
-    List<T> findByNama(String nama);
+//    List<T> findByNama(Search search);
 
 
 }

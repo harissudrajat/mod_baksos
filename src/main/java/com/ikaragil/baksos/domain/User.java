@@ -5,16 +5,19 @@ public class User {
     private Long id;
     private String nama;
     private Long id_korwil;
+    private String alamat;
     private String tgl_input;
     private String tgl_update;
 
-    public User(Long id, String nama, Long id_korwil, String tgl_input, String tgl_update) {
+    public User(Long id, String nama, Long id_korwil, String alamat, String tgl_input, String tgl_update) {
         this.id = id;
         this.nama = nama;
         this.id_korwil = id_korwil;
+        this.alamat = alamat;
         this.tgl_input = tgl_input;
         this.tgl_update = tgl_update;
     }
+
 
     public User() {
     }
@@ -59,12 +62,21 @@ public class User {
         this.tgl_update = tgl_update;
     }
 
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", nama='" + nama + '\'' +
                 ", id_korwil=" + id_korwil +
+                ", alamat='" + alamat + '\'' +
                 ", tgl_input='" + tgl_input + '\'' +
                 ", tgl_update='" + tgl_update + '\'' +
                 '}';

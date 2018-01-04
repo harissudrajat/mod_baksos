@@ -1,12 +1,15 @@
 package com.ikaragil.baksos.service.impl;
 
 import com.ikaragil.baksos.domain.Baksos;
+import com.ikaragil.baksos.domain.Search;
 import com.ikaragil.baksos.repository.impl.BaksosDaoImpl;
 import com.ikaragil.baksos.service.BaksosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BaksosServiceImpl implements BaksosService {
@@ -15,57 +18,161 @@ public class BaksosServiceImpl implements BaksosService {
     private BaksosDaoImpl baksosDao;
 
     @Override
-    public List<Baksos> findByKorwil(Integer id_korwil) {
-        return baksosDao.findByKorwil(id_korwil);
-    }
-
-    @Override
-    public List<Baksos> findByStatus(String status) {
-        try {
-            return baksosDao.findByStatus(status);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+    public Map findByKorwil(Search search) {
+        Map m = new HashMap();
+        if (search.getKey().equals("korwil")) {
+            List<Baksos> findKorwil = baksosDao.findByKorwil(Integer.parseInt(search.getValue()));
+            if (findKorwil.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Data Tidak Ditemukan");
+            } else {
+                m.put("data", findKorwil);
+                m.put("kode", "00");
+                m.put("response", "Data Ditemukan");
+            }
+        } else {
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
         }
+        return m;
     }
 
     @Override
-    public List<Baksos> findAll() {
-        try {
-            return baksosDao.findAll();
-        } catch (Exception e){
-            e.printStackTrace();
-            return null;
+    public Map findByStatus(Search search) {
+        Map m = new HashMap();
+        if (search.getKey().equals("status")) {
+            List<Baksos> baksosList = baksosDao.findByStatus(search.getValue());
+            if (baksosList.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Status Tidak Ditemukan");
+            } else {
+                m.put("data", baksosList);
+                m.put("kode", "00");
+                m.put("response", "Status Ditemukan");
+            }
+        } else {
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
         }
+        return m;
     }
 
     @Override
-    public int create(Baksos baksos) {
-        return baksosDao.create(baksos);
+    public Map findByKode(Search search) {
+        Map m = new HashMap();
+        if (search.getKey().equals("kode")) {
+            List<Baksos> findByKode = baksosDao.findByKode(search.getValue());
+            if (findByKode.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Data Tidak Ditemukan ");
+            } else {
+                m.put("data", findByKode);
+                m.put("kode", "00");
+                m.put("response", "Data Ditemukan");
+            }
+        } else {
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
+        }
+        return m;
     }
 
     @Override
-    public int update(Baksos baksos) {
-        return baksosDao.update(baksos);
+    public Map findAll() {
+        Map m = new HashMap();
+        List<Baksos> findAll = baksosDao.findAll();
+        if (findAll.isEmpty()) {
+            m.put("kode", "01");
+            m.put("response", "Data Tidak Ditemukan");
+        } else {
+            m.put("data", findAll);
+            m.put("kode", "00");
+            m.put("response", "Data Ditemukan");
+        }
+        return m;
     }
 
     @Override
-    public int delete(Baksos baksos) {
-        return baksosDao.delete(baksos);
+    public Map create(Baksos baksos) {
+        Map m = new HashMap();
+        if (baksos.getId() == null){
+            m.put("data", baksosDao.create(baksos));
+            m.put("kode", "00");
+            m.put("response", "Sukses");
+        } else {
+            m.put("kode", "01");
+            m.put("response", "Gagal");
+        }
+
+        return m;
     }
 
     @Override
-    public List<Baksos> findById(Integer id) {
-        return baksosDao.findById(id);
+    public Map update(Baksos baksos) {
+        Map m = new HashMap();
+        if (baksos.getId() != null){
+            m.put("data", baksosDao.update(baksos));
+            m.put("kode", "00");
+            m.put("response", "Sukses");
+        } else {
+            m.put("kode", "01");
+            m.put("response", "Gagal");
+        }
+        return m;
     }
 
     @Override
-    public List<Baksos> findByNama(String nama) {
-        return baksosDao.findByNama(nama);
+    public Map delete(Baksos baksos) {
+        Map m = new HashMap();
+        if (baksos.getId() != null){
+            m.put("data", baksosDao.delete(baksos));
+            m.put("kode", "00");
+            m.put("response", "Sukses");
+        } else {
+            m.put("kode", "01");
+            m.put("response", "Gagal");
+        }
+        return m;
     }
 
     @Override
-    public List<Baksos> orderByNama() {
-        return baksosDao.orderByNama();
+    public Map findById(Search search) {
+        Map m = new HashMap();
+        if (search.getKey().equals("id")) {
+            List<Baksos> findById = baksosDao.findById(Integer.parseInt(search.getValue()));
+            if (findById.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Data Tidak Ditemukan");
+            } else {
+                m.put("data", findById);
+                m.put("kode", "00");
+                m.put("response", "Data Ditemukan");
+            }
+        } else {
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
+        }
+        return m;
     }
+
+    @Override
+    public Map orderByNama(Search search) {
+        Map m = new HashMap();
+        if (search.getKey().equals("kode")) {
+            List<Baksos> orderByNama = baksosDao.orderByNama();
+            if (orderByNama.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Data Tidak Ditemukan");
+            } else {
+                m.put("data", orderByNama);
+                m.put("kode", "00");
+                m.put("response", "Data Ditemukan");
+            }
+        } else {
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
+        }
+        return m;
+    }
+
 }

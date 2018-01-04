@@ -1,12 +1,15 @@
 package com.ikaragil.baksos.service.impl;
 
 import com.ikaragil.baksos.domain.Keadaan;
+import com.ikaragil.baksos.domain.Search;
 import com.ikaragil.baksos.repository.impl.KeadaanDaoImpl;
 import com.ikaragil.baksos.service.KeadaanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class KeadaanServiceImpl implements KeadaanService {
@@ -15,37 +18,119 @@ public class KeadaanServiceImpl implements KeadaanService {
     private KeadaanDaoImpl keadaanDao;
 
     @Override
-    public List<Keadaan> findAll() {
-        return keadaanDao.findAll();
+    public Map findByNama(Search search) {
+        Map m = new HashMap();
+        if (search.getKey().equals("nama")) {
+            List<Keadaan> findBynama = keadaanDao.findByNama(search.getValue());
+            if (findBynama.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Data Tidak Ditemukan");
+            } else {
+                m.put("data", findBynama);
+                m.put("kode", "00");
+                m.put("response", "Data Ditemukan");
+            }
+        } else {
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
+        }
+        return m;
     }
 
     @Override
-    public int create(Keadaan keadaan) {
-        return keadaanDao.create(keadaan);
+    public Map findAll() {
+        Map m = new HashMap();
+        List<Keadaan> findAll = keadaanDao.findAll();
+        if (findAll.isEmpty()) {
+            m.put("kode", "01");
+            m.put("response", "Data Tidak Ditemukan");
+        } else {
+            m.put("data", findAll);
+            m.put("kode", "00");
+            m.put("response", "Data Ditemukan");
+        }
+        return m;
     }
 
     @Override
-    public int update(Keadaan keadaan) {
-        return keadaanDao.update(keadaan);
+    public Map create(Keadaan keadaan) {
+        Map m = new HashMap();
+        if (keadaan.getId() == null) {
+            m.put("data", keadaanDao.create(keadaan));
+            m.put("kode", "00");
+            m.put("response", "Sukses");
+        } else {
+            m.put("kode", "01");
+            m.put("response", "Gagal");
+        }
+        return m;
     }
 
     @Override
-    public int delete(Keadaan keadaan) {
-        return keadaanDao.delete(keadaan);
+    public Map update(Keadaan keadaan) {
+        Map m = new HashMap();
+        if (keadaan.getId() != null) {
+            m.put("data", keadaanDao.update(keadaan));
+            m.put("kode", "00");
+            m.put("response", "Sukses");
+        } else {
+            m.put("kode", "01");
+            m.put("response", "Gagal");
+        }
+        return m;
     }
 
     @Override
-    public List<Keadaan> findById(Integer id) {
-        return keadaanDao.findById(id);
+    public Map delete(Keadaan keadaan) {
+        Map m = new HashMap();
+        if (keadaan.getId() != null) {
+            m.put("data", keadaanDao.delete(keadaan));
+            m.put("kode", "00");
+            m.put("response", "Sukses");
+        } else {
+            m.put("kode", "01");
+            m.put("response", "Gagal");
+        }
+        return m;
     }
 
     @Override
-    public List<Keadaan> findByNama(String nama) {
-        return keadaanDao.findByNama(nama);
+    public Map findById(Search search) {
+        Map m = new HashMap();
+        if (search.getKey().equals("id")) {
+            List<Keadaan> findById = keadaanDao.findById(Integer.parseInt(search.getValue()));
+            if (findById.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Data Tidak Ditemukan");
+            } else {
+                m.put("data", findById);
+                m.put("kode", "00");
+                m.put("response", "Data Ditemukan");
+            }
+        } else {
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
+        }
+        return m;
     }
 
     @Override
-    public List<Keadaan> orderByNama() {
-        return keadaanDao.orderByNama();
+    public Map orderByNama(Search search) {
+        Map m = new HashMap();
+        if (search.getKey().equals("nama")) {
+            List<Keadaan> orderByNama = keadaanDao.orderByNama();
+            if (orderByNama.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Data Tidak Ditemukan");
+            } else {
+                m.put("data", orderByNama);
+                m.put("kode", "00");
+                m.put("response", "Data Ditemukan");
+            }
+        } else {
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
+        }
+        return m;
     }
 }

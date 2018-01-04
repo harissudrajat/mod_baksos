@@ -24,7 +24,7 @@ public class PenanggungJawabDaoImpl implements PenanggungJawabDao {
 
     /*QUERY*/
     private static final String findAll = "SELECT * FROM penanggung_jawab";
-    private static final String create = "INSERT INTO penanggung_jawab (nama, alamat, jabatan) VALUE (?,?)";
+    private static final String create = "INSERT INTO penanggung_jawab (nama, alamat, jabatan) VALUE (?,?,?)";
     private static final String update = "UPDATE penanggung_jawab SET nama=?, alamat=?, jabatan=? WHERE id=?";
     private static final String delete = "DELETE FROM penanggung_jawab WHERE id=?";
     private static final String orderByNama = "SELECT * FROM penanggung_jawab ORDER BY nama";

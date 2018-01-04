@@ -17,13 +17,13 @@ import java.util.List;
 public class JenisDaoImpl implements JenisDao {
 
     /*QUERY START*/
-    private static final String findAll = "SELECT * FROM baksos_jenis";
-    private static final String create = "INSERT INTO baksos_jenis (nama) VALUE(?)";
-    private static final String update = "UPDATE baksos_jenis SET nama=? WHERE id=?";
-    private static final String delete = "DELETE FROM baksos_jenis WHERE id=?";
-    private static final String orderByNama = "SELECT * FROM baksos_jenis ORDER BY nama";
-    private static final String findById = "SELECT * FROM baksos_jenis WHERE id=?";
-    private static final String findByName = "SELECT * FROM baksos_jenis WHERE nama=?";
+    private static final String findAll = "SELECT * FROM jenis";
+    private static final String create = "INSERT INTO jenis (nama) VALUE(?)";
+    private static final String update = "UPDATE jenis SET nama=? WHERE id=?";
+    private static final String delete = "DELETE FROM jenis WHERE id=?";
+    private static final String orderByNama = "SELECT * FROM jenis ORDER BY nama";
+    private static final String findById = "SELECT * FROM jenis WHERE id=?";
+    private static final String findByName = "SELECT * FROM jenis WHERE nama=?";
 
 
     @Autowired

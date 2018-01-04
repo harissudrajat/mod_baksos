@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
     /*QUERY*/
     private static final String findAll = "SELECT * FROM petugas";
     private static final String create = "INSERT INTO petugas (nama, alamat, id_korwil, tgl_input) VALUE (?,?,?,?)";
-    private static final String update = "UPDATE petugas SET nama=?, alamat=?, jabatan=?, id_korwil=?, tgl_update=? WHERE id=?";
+    private static final String update = "UPDATE petugas SET nama=?, alamat=?, id_korwil=?, tgl_update=? WHERE id=?";
     private static final String delete = "DELETE FROM petugas WHERE id=?";
     private static final String orderByNama = "SELECT * FROM petugas ORDER BY nama";
     private static final String findById = "SELECT * FROM petugas WHERE id=?";
@@ -40,6 +40,7 @@ public class UserDaoImpl implements UserDao {
     public int create(User user) {
         return jdbc.update(create, new Object[]{
                 user.getNama(),
+                user.getAlamat(),
                 user.getId_korwil(),
                 user.getTgl_input()
         });
@@ -49,6 +50,7 @@ public class UserDaoImpl implements UserDao {
     public int update(User user) {
         return jdbc.update(update, new Object[]{
                 user.getNama(),
+                user.getAlamat(),
                 user.getId_korwil(),
                 user.getTgl_update(),
                 user.getId()
@@ -83,6 +85,7 @@ public class UserDaoImpl implements UserDao {
             User user = new User();
             user.setId(rs.getLong("id"));
             user.setNama(rs.getString("nama"));
+            user.setAlamat(rs.getString("alamat"));
             user.setId_korwil(rs.getLong("id_korwil"));
             user.setTgl_input(rs.getString("tgl_input"));
             user.setTgl_update(rs.getString("tgl_update"));

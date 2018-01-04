@@ -68,7 +68,7 @@ public class KorwilDaoImpl implements KorwilDao {
 
     @Override
     public List<Korwil> findByNama(String nama) {
-        return jdbc.query(findById, new Object[]{nama}, new KorwilRowMapper());
+        return jdbc.query(findByNama, new Object[]{nama}, new KorwilRowMapper());
     }
 
     private class KorwilRowMapper implements RowMapper<Korwil> {

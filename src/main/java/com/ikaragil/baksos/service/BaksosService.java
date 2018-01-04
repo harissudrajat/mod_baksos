@@ -1,12 +1,15 @@
 package com.ikaragil.baksos.service;
 
 import com.ikaragil.baksos.domain.Baksos;
+import com.ikaragil.baksos.domain.Search;
 
-import java.util.List;
+import java.util.Map;
 
 public interface BaksosService extends BaseService<Baksos> {
 
-    List<Baksos> findByKorwil(Integer id_korwil);
+    Map findByKorwil(Search search);
 
-    List<Baksos> findByStatus(String status);
+    Map findByStatus(Search search);
+
+    Map findByKode(Search search);
 }

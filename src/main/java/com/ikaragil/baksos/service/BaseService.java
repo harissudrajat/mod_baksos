@@ -1,20 +1,22 @@
 package com.ikaragil.baksos.service;
 
-import java.util.List;
+import com.ikaragil.baksos.domain.Search;
+
+import java.util.Map;
 
 public interface BaseService<T> {
-    List<T> findAll();
+    Map findAll();
 
-    int create(T t);
+    Map create(T t);
 
-    int update(T t);
+    Map update(T t);
 
-    int delete(T t);
+    Map delete(T t);
 
-    List<T> findById(Integer id);
+    Map findById(Search search);
 
-    List<T> findByNama(String nama);
+//    Map findByNama(Search search);
 
-    List<T> orderByNama();
+    Map orderByNama(Search search);
 
 }
