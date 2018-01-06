@@ -4,7 +4,6 @@ import com.ikaragil.baksos.domain.Keadaan;
 import com.ikaragil.baksos.repository.KeadaanDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 

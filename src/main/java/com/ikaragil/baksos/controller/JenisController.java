@@ -19,45 +19,39 @@ public class JenisController {
     @Autowired
     private JenisServiceImpl jenisService;
 
-    Logger log = LoggerFactory.getLogger(JenisController.class);
+    private Logger log = LoggerFactory.getLogger(JenisController.class);
 
     @GetMapping(value = "")
     public Map findAll() {
-        return null;
+        return jenisService.findAll();
     }
 
     @PostMapping(value = "/save")
     public Map addEdit(@RequestBody Jenis jenis) {
         if (jenis.getId() == null) {
-            return null;
-        } else if (jenis.getId() != null) {
-            return null;
+            return jenisService.create(jenis);
         } else {
-            return null;
+            return jenisService.update(jenis);
         }
 
     }
 
     @DeleteMapping(value = "/delete")
     public Map delete(@RequestBody Jenis jenis) {
-        return null;
+        return jenisService.delete(jenis);
     }
 
     @PostMapping(value = "/order")
     public Map order(@RequestBody Search search) {
-        return null;
+        return jenisService.orderByNama(search);
     }
 
     @PostMapping(value = "/find")
-    public Map findByName(@RequestBody Search search) {
+    public Map find(@RequestBody Search search) {
         if (search.getKey().equals("id")) {
-            return null;
-        } else if (search.getKey().equals("nama")) {
-            return null;
+            return jenisService.findById(search);
         } else {
-            return null;
+            return jenisService.findByNama(search);
         }
     }
-
-
 }

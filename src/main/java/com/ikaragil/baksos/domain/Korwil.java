@@ -1,8 +1,11 @@
 package com.ikaragil.baksos.domain;
 
+import javax.validation.constraints.NotNull;
+
 public class Korwil {
 
     private Long id;
+    @NotNull
     private String nama;
     private String alamat;
 

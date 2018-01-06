@@ -17,32 +17,38 @@ import java.util.Map;
 @RequestMapping(value = "/api/barang")
 public class BarangController {
 
-    Logger log = LoggerFactory.getLogger(BarangController.class);
+    private Logger log = LoggerFactory.getLogger(BarangController.class);
 
     @Autowired
     private BarangServiceImpl barangService;
 
     @GetMapping(value = "")
     public Map findAll() {
-        return null;
+        return barangService.findAll();
     }
 
     @PostMapping(value = "/save")
     public Map save(@RequestBody Barang barang) {
-        return null;
+        if (barang.getId() == null) {
+            return barangService.create(barang);
+        } else if (barang.getId() != null) {
+            return barangService.update(barang);
+        } else {
+            return null;
+        }
     }
 
     @DeleteMapping(value = "/delete")
     public Map delete(@RequestBody Barang barang) {
-        return null;
+        return barangService.delete(barang);
     }
 
     @PostMapping(value = "/find")
-    public Map findByName(@RequestBody Search search) {
+    public Map find(@RequestBody Search search) {
         if (search.getKey().equals("id")) {
-            return null;
+            return barangService.findById(search);
         } else if (search.getKey().equals("nama")) {
-            return null;
+            return barangService.findByNama(search);
         } else {
             return null;
         }
@@ -50,6 +56,6 @@ public class BarangController {
 
     @PostMapping(value = "/order")
     public Map order(@RequestBody Search search) {
-        return null;
+        return barangService.orderByNama(search);
     }
 }

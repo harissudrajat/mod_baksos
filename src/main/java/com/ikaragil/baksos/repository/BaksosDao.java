@@ -12,4 +12,6 @@ public interface BaksosDao extends BaseDao<Baksos> {
     List<Baksos> findByStatus(String status);
 
     List<Baksos> findByKode(String kode);
+
+    List<String> getLastKode();
 }

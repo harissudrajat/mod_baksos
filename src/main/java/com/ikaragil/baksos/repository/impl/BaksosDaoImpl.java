@@ -25,6 +25,7 @@ public class BaksosDaoImpl implements BaksosDao {
     private static final String findByNama = "SELECT * FROM baksos WHERE kode=?";
     private static final String findByKorwil = "SELECT * FROM baksos WHERE id_korwil=?";
     private static final String findByStatus = "SELECT * FROM baksos WHERE ket=?";
+    private static final String countKode = "SELECT COUNT(id) FROM baksos";
 
     @Autowired
     private JdbcTemplate jdbc;
@@ -100,6 +101,11 @@ public class BaksosDaoImpl implements BaksosDao {
     }
 
     @Override
+    public List<String> getLastKode() {
+        return jdbc.query(countKode, new KodeRowMapper());
+    }
+
+    @Override
     public List<Baksos> findByKorwil(Integer id_korwil) {
         return jdbc.query(findByKorwil, new Object[]{id_korwil}, new BaksosRowMapper());
     }
@@ -113,23 +119,30 @@ public class BaksosDaoImpl implements BaksosDao {
         @Override
         public Baksos mapRow(ResultSet rs, int i) throws SQLException {
             Baksos baksos = new Baksos();
-                baksos.setId(rs.getLong("id"));
-                baksos.setKode(rs.getString("kode"));
-                baksos.setDeskripsi(rs.getString("deskripsi"));
-                baksos.setTgl_baksos(rs.getString("tgl_baksos"));
-                baksos.setLongitude(rs.getString("longitude"));
-                baksos.setLatitude(rs.getString("latitude"));
-                baksos.setAlamat(rs.getString("alamat"));
-                baksos.setId_penanggungjawab(rs.getInt("id_pj"));
-                baksos.setId_korwil(rs.getInt("id_korwil"));
-                baksos.setId_keadaan(rs.getInt("id_keadaan"));
-                baksos.setId_barang(rs.getInt("id_barang"));
-                baksos.setQuantity(rs.getString("qty"));
-                baksos.setSatuan(rs.getString("satuan"));
-                baksos.setTgl_input(rs.getString("tgl_input"));
-                baksos.setId_user(rs.getInt("id_user"));
-                baksos.setStatus(rs.getString("ket"));
+            baksos.setId(rs.getLong("id"));
+            baksos.setKode(rs.getString("kode"));
+            baksos.setDeskripsi(rs.getString("deskripsi"));
+            baksos.setTgl_baksos(rs.getString("tgl_baksos"));
+            baksos.setLongitude(rs.getString("longitude"));
+            baksos.setLatitude(rs.getString("latitude"));
+            baksos.setAlamat(rs.getString("alamat"));
+            baksos.setId_penanggungjawab(rs.getInt("id_pj"));
+            baksos.setId_korwil(rs.getInt("id_korwil"));
+            baksos.setId_keadaan(rs.getInt("id_keadaan"));
+            baksos.setId_barang(rs.getInt("id_barang"));
+            baksos.setQuantity(rs.getString("qty"));
+            baksos.setSatuan(rs.getString("satuan"));
+            baksos.setTgl_input(rs.getString("tgl_input"));
+            baksos.setId_user(rs.getInt("id_user"));
+            baksos.setStatus(rs.getString("ket"));
             return baksos;
+        }
+    }
+
+    private class KodeRowMapper implements RowMapper<String> {
+        @Override
+        public String mapRow(ResultSet resultSet, int i) throws SQLException {
+            return resultSet.getString("jumlah");
         }
     }
 }

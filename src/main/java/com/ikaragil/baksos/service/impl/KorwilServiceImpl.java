@@ -118,20 +118,25 @@ public class KorwilServiceImpl implements KorwilService {
     @Override
     public Map orderByNama(Search search) {
         Map m = new HashMap();
-        if (search.getKey().equals("nama")) {
-            List<Korwil> orderByNama = korwilDao.orderByNama();
-            if (orderByNama.isEmpty()) {
-                m.put("kode", "01");
-                m.put("response", "Data Tidak Ditemukan");
+        try {
+            if (search.getKey().equals("nama")) {
+                List<Korwil> orderByNama = korwilDao.orderByNama();
+                if (orderByNama.isEmpty()) {
+                    m.put("kode", "01");
+                    m.put("response", "Data Tidak Ditemukan");
+                } else {
+                    m.put("data", orderByNama);
+                    m.put("kode", "00");
+                    m.put("response", "Data Ditemukan");
+                }
             } else {
-                m.put("data", orderByNama);
-                m.put("kode", "00");
-                m.put("response", "Data Ditemukan");
+                m.put("kode", "02");
+                m.put("response", "Keyword Salah");
             }
-        } else {
-            m.put("kode", "02");
-            m.put("response", "Keyword Salah");
+            return m;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-        return m;
     }
 }

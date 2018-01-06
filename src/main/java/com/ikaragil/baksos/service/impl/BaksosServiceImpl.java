@@ -7,6 +7,8 @@ import com.ikaragil.baksos.service.BaksosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +97,7 @@ public class BaksosServiceImpl implements BaksosService {
     @Override
     public Map create(Baksos baksos) {
         Map m = new HashMap();
-        if (baksos.getId() == null){
+        if (baksos.getId() == null) {
             m.put("data", baksosDao.create(baksos));
             m.put("kode", "00");
             m.put("response", "Sukses");
@@ -110,7 +112,7 @@ public class BaksosServiceImpl implements BaksosService {
     @Override
     public Map update(Baksos baksos) {
         Map m = new HashMap();
-        if (baksos.getId() != null){
+        if (baksos.getId() != null) {
             m.put("data", baksosDao.update(baksos));
             m.put("kode", "00");
             m.put("response", "Sukses");
@@ -124,7 +126,7 @@ public class BaksosServiceImpl implements BaksosService {
     @Override
     public Map delete(Baksos baksos) {
         Map m = new HashMap();
-        if (baksos.getId() != null){
+        if (baksos.getId() != null) {
             m.put("data", baksosDao.delete(baksos));
             m.put("kode", "00");
             m.put("response", "Sukses");

@@ -33,7 +33,7 @@ public class Keadaan {
     public String toString() {
         return "Keadaan{" +
                 "id=" + id +
-                ", nama='" + nama + '\'' +
+                ", nama=" + nama +
                 '}';
     }
 }
