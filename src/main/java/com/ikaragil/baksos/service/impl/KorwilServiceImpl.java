@@ -48,7 +48,7 @@ public class KorwilServiceImpl implements KorwilService {
         } else {
             m.put("data", findAll);
             m.put("kode", "00");
-            m.put("response", "Data Ditemukan");
+            m.put("response", "Data Kosong");
         }
         return m;
     }
@@ -71,12 +71,18 @@ public class KorwilServiceImpl implements KorwilService {
     public Map update(Korwil korwil) {
         Map m = new HashMap();
         if (korwil.getId() != null) {
-            m.put("data", korwilDao.update(korwil));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
+            List<Korwil> findById = korwilDao.findById(korwil.getId());
+            if (findById.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Id not found");
+            } else {
+                m.put("data", korwilDao.update(korwil));
+                m.put("kode", "00");
+                m.put("response", "Sukses");
+            }
         } else {
-            m.put("kode", "01");
-            m.put("response", "Gagal");
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
         }
         return m;
     }
@@ -84,13 +90,20 @@ public class KorwilServiceImpl implements KorwilService {
     @Override
     public Map delete(Korwil korwil) {
         Map m = new HashMap();
-        if (korwil.getId() != null) {
-            m.put("data", korwilDao.delete(korwil));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
-        } else {
+        if (korwil.getId() == null) {
+            System.out.println(korwil);
             m.put("kode", "01");
-            m.put("response", "Gagal");
+            m.put("response", "id is not allow null");
+        } else {
+            List<Korwil> korwils = korwilDao.findById(Long.parseLong(korwil.getId().toString()));
+            if (korwils.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Korwil ID is not found");
+            } else {
+                m.put("data", korwilDao.delete(korwil));
+                m.put("kode", "00");
+                m.put("response", "Berhasil di Hapus");
+            }
         }
         return m;
     }
@@ -99,7 +112,7 @@ public class KorwilServiceImpl implements KorwilService {
     public Map findById(Search search) {
         Map m = new HashMap();
         if (search.getKey().equals("id")) {
-            List<Korwil> findById = korwilDao.findById(Integer.parseInt(search.getValue()));
+            List<Korwil> findById = korwilDao.findById(Long.parseLong(search.getValue()));
             if (findById.isEmpty()) {
                 m.put("kode", "01");
                 m.put("response", "Data Tidak Ditemukan");
@@ -134,7 +147,7 @@ public class KorwilServiceImpl implements KorwilService {
                 m.put("response", "Keyword Salah");
             }
             return m;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

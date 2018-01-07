@@ -10,7 +10,7 @@ public interface BaseDao<T> {
     int update(T t);
     int delete(T t);
     List<T> orderByNama();
-    List<T> findById(Integer id);
+    List<T> findById(Long id);
 //    List<T> findByNama(Search search);
 
 

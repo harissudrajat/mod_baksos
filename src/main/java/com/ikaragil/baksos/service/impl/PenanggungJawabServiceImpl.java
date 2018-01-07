@@ -70,9 +70,15 @@ public class PenanggungJawabServiceImpl implements PenanggungJawabService {
     public Map update(PenanggungJawab pj) {
         Map m = new HashMap();
         if (pj.getId() != null) {
-            m.put("data", pjDao.update(pj));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
+            List<PenanggungJawab> findId = pjDao.findById(pj.getId());
+            if (findId.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Id tidak ditemukan");
+            } else {
+                m.put("data", pjDao.update(pj));
+                m.put("kode", "00");
+                m.put("response", "Sukses");
+            }
         } else {
             m.put("kode", "01");
             m.put("response", "Gagal");
@@ -84,9 +90,15 @@ public class PenanggungJawabServiceImpl implements PenanggungJawabService {
     public Map delete(PenanggungJawab pj) {
         Map m = new HashMap();
         if (pj.getId() != null) {
-            m.put("data", pjDao.delete(pj));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
+            List<PenanggungJawab> findId = pjDao.findById(pj.getId());
+            if (findId.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Id tidak ditemukan");
+            } else {
+                m.put("data", pjDao.delete(pj));
+                m.put("kode", "00");
+                m.put("response", "Sukses");
+            }
         } else {
             m.put("kode", "01");
             m.put("response", "Gagal");
@@ -98,7 +110,7 @@ public class PenanggungJawabServiceImpl implements PenanggungJawabService {
     public Map findById(Search search) {
         Map m = new HashMap();
         if (search.getKey().equals("id")) {
-            List<PenanggungJawab> findById = pjDao.findById(Integer.parseInt(search.getValue()));
+            List<PenanggungJawab> findById = pjDao.findById(Long.parseLong(search.getValue()));
             if (findById.isEmpty()) {
                 m.put("kode", "01");
                 m.put("response", "Data Tidak Ditemukan");

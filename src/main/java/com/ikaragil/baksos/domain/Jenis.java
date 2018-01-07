@@ -2,10 +2,10 @@ package com.ikaragil.baksos.domain;
 
 public class Jenis {
 
-    private Integer id;
+    private Long id;
     private String nama;
 
-    public Jenis(Integer id, String nama) {
+    public Jenis(Long id, String nama) {
         this.id = id;
         this.nama = nama;
     }
@@ -13,11 +13,11 @@ public class Jenis {
     public Jenis() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

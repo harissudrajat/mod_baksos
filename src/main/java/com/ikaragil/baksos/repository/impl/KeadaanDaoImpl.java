@@ -52,7 +52,7 @@ public class KeadaanDaoImpl implements KeadaanDao {
     }
 
     @Override
-    public List<Keadaan> findById(Integer id) {
+    public List<Keadaan> findById(Long id) {
         return jdbc.query(findById, new Object[]{id}, new KeadaanRowMapper());
     }
 

@@ -62,7 +62,7 @@ public class KorwilDaoImpl implements KorwilDao {
     }
 
     @Override
-    public List<Korwil> findById(Integer id) {
+    public List<Korwil> findById(Long id) {
         return jdbc.query(findById, new Object[]{id}, new KorwilRowMapper());
     }
 

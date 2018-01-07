@@ -67,7 +67,7 @@ public class BarangDaoImpl implements BarangDao {
     }
 
     @Override
-    public List<Barang> findById(Integer id) {
+    public List<Barang> findById(Long id) {
         return jdbc.query(findById, new Object[]{id}, new BarangRowMapper());
     }
 

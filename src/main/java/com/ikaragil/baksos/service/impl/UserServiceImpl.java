@@ -72,12 +72,18 @@ public class UserServiceImpl implements UserService {
     public Map update(User user) {
         Map m = new HashMap();
         if (user.getId() != null) {
-            m.put("data", userDao.update(user));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
+            List<User> findById = userDao.findById(user.getId());
+            if (findById.isEmpty()){
+                m.put("kode", "01");
+                m.put("response", "Id not found");
+            } else {
+                m.put("data", userDao.update(user));
+                m.put("kode", "00");
+                m.put("response", "Sukses");
+            }
         } else {
-            m.put("kode", "01");
-            m.put("response", "Gagal");
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
         }
         return m;
     }
@@ -86,12 +92,18 @@ public class UserServiceImpl implements UserService {
     public Map delete(User user) {
         Map m = new HashMap();
         if (user.getId() != null) {
-            m.put("data", userDao.delete(user));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
+            List<User> findById = userDao.findById(user.getId());
+            if (findById.isEmpty()){
+                m.put("kode", "01");
+                m.put("response", "Id not found");
+            } else {
+                m.put("data", userDao.delete(user));
+                m.put("kode", "00");
+                m.put("response", "Sukses");
+            }
         } else {
-            m.put("kode", "01");
-            m.put("response", "Gagal");
+            m.put("kode", "02");
+            m.put("response", "Keyword Salah");
         }
         return m;
     }
@@ -100,7 +112,7 @@ public class UserServiceImpl implements UserService {
     public Map findById(Search search) {
         Map m = new HashMap();
         if (search.getKey().equals("id")) {
-            List<User> findById = userDao.findById(Integer.parseInt(search.getValue()));
+            List<User> findById = userDao.findById(Long.parseLong(search.getValue()));
             if (findById.isEmpty()) {
                 m.put("kode", "01");
                 m.put("response", "Data Tidak Ditemukan");

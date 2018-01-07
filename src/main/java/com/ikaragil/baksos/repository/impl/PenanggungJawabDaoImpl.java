@@ -69,7 +69,7 @@ public class PenanggungJawabDaoImpl implements PenanggungJawabDao {
     }
 
     @Override
-    public List<PenanggungJawab> findById(Integer id) {
+    public List<PenanggungJawab> findById(Long id) {
         return jdbc.query(findById, new Object[]{id}, new PJRowMapper());
     }
 

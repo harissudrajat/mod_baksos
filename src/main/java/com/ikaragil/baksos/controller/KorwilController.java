@@ -38,7 +38,7 @@ public class KorwilController {
 
     @DeleteMapping(value = "/delete")
     public Map delete(@RequestBody Korwil korwil) {
-        log.info("delete: " + korwil.toString());
+        log.info("delete: " + korwil.getId());
         return korwilService.delete(korwil);
     }
 

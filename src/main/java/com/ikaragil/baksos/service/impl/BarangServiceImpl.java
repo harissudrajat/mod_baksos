@@ -50,9 +50,15 @@ public class BarangServiceImpl implements BarangService {
     public Map update(Barang barang) {
         Map m = new HashMap();
         if (barang.getId() != null) {
-            m.put("data", barangDao.update(barang));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
+            List<Barang> findById = barangDao.findById(barang.getId());
+            if (findById.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Id not found");
+            } else {
+                m.put("data", barangDao.update(barang));
+                m.put("kode", "00");
+                m.put("response", "Sukses");
+            }
         } else {
             m.put("kode", "01");
             m.put("response", "Gagal");
@@ -64,9 +70,15 @@ public class BarangServiceImpl implements BarangService {
     public Map delete(Barang barang) {
         Map m = new HashMap();
         if (barang.getId() != null) {
-            m.put("data", barangDao.delete(barang));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
+            List<Barang> findById = barangDao.findById(barang.getId());
+            if (findById.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Id not found");
+            } else {
+                m.put("data", barangDao.delete(barang));
+                m.put("kode", "00");
+                m.put("response", "Sukses");
+            }
         } else {
             m.put("kode", "01");
             m.put("response", "Gagal");
@@ -78,7 +90,7 @@ public class BarangServiceImpl implements BarangService {
     public Map findById(Search search) {
         Map m = new HashMap();
         if (search.getKey().equals("id")) {
-            List<Barang> findById = barangDao.findById(Integer.parseInt(search.getValue()));
+            List<Barang> findById = barangDao.findById(Long.parseLong(search.getValue()));
             if (findById.isEmpty()) {
                 m.put("kode", "01");
                 m.put("response", "Data Tidak Ditemukan");

@@ -50,9 +50,15 @@ public class JenisServiceImpl implements JenisService {
     public Map update(Jenis jenis) {
         Map m = new HashMap();
         if (jenis.getId() != null) {
-            m.put("data", jenisDao.update(jenis));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
+            List<Jenis> findById = jenisDao.findById(jenis.getId());
+            if (findById.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Id not found");
+            } else {
+                m.put("data", jenisDao.update(jenis));
+                m.put("kode", "00");
+                m.put("response", "Sukses");
+            }
         } else {
             m.put("kode", "01");
             m.put("response", "Gagal");
@@ -64,9 +70,15 @@ public class JenisServiceImpl implements JenisService {
     public Map delete(Jenis jenis) {
         Map m = new HashMap();
         if (jenis.getId() != null) {
-            m.put("data", jenisDao.delete(jenis));
-            m.put("kode", "00");
-            m.put("response", "Sukses");
+            List<Jenis> findById = jenisDao.findById(jenis.getId());
+            if (findById.isEmpty()) {
+                m.put("kode", "01");
+                m.put("response", "Id not found");
+            } else {
+                m.put("data", jenisDao.delete(jenis));
+                m.put("kode", "00");
+                m.put("response", "Sukses");
+            }
         } else {
             m.put("kode", "01");
             m.put("response", "Gagal");
@@ -78,7 +90,7 @@ public class JenisServiceImpl implements JenisService {
     public Map findById(Search search) {
         Map m = new HashMap();
         if (search.getKey().equals("id")) {
-            List<Jenis> findById = jenisDao.findById(Integer.parseInt(search.getValue()));
+            List<Jenis> findById = jenisDao.findById(Long.parseLong(search.getValue()));
             if (findById.isEmpty()) {
                 m.put("kode", "01");
                 m.put("response", "Data Tidak Ditemukan");

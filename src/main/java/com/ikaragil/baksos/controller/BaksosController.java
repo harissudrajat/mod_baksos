@@ -21,6 +21,15 @@ public class BaksosController {
     @Autowired
     private BaksosServiceImpl baksosService;
 
+    @PostMapping(value = "/detail")
+    public Map getDetail(@RequestBody Search search){
+        if (search.getKey().equals("kode")){
+            return baksosService.getDetail(search);
+        } else {
+            return null;
+        }
+    }
+
     @GetMapping(value = "")
     public Map findAll() {
         return baksosService.findAll();

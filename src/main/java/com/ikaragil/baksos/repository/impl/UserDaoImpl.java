@@ -70,7 +70,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> findById(Integer id) {
+    public List<User> findById(Long id) {
         return jdbc.query(findById, new Object[]{id}, new UserRowMapper());
     }
 

@@ -64,7 +64,7 @@ public class JenisDaoImpl implements JenisDao {
     }
 
     @Override
-    public List<Jenis> findById(Integer id) {
+    public List<Jenis> findById(Long id) {
         try {
             return jdbcTemplate.query(findById, new Object[]{id}, new JenisRowMapper());
         } catch (Exception e) {
@@ -87,7 +87,7 @@ public class JenisDaoImpl implements JenisDao {
         @Override
         public Jenis mapRow(ResultSet rs, int numRow) throws SQLException {
             Jenis jns = new Jenis();
-            jns.setId(rs.getInt("id"));
+            jns.setId(rs.getLong("id"));
             jns.setNama(rs.getString("nama"));
             return jns;
         }

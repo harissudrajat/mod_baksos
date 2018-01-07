@@ -1,10 +1,10 @@
 package com.ikaragil.baksos.repository.impl;
 
 import com.ikaragil.baksos.domain.Baksos;
+import com.ikaragil.baksos.domain.BaksosDetail;
 import com.ikaragil.baksos.repository.BaksosDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +25,9 @@ public class BaksosDaoImpl implements BaksosDao {
     private static final String findByNama = "SELECT * FROM baksos WHERE kode=?";
     private static final String findByKorwil = "SELECT * FROM baksos WHERE id_korwil=?";
     private static final String findByStatus = "SELECT * FROM baksos WHERE ket=?";
-    private static final String countKode = "SELECT COUNT(id) FROM baksos";
+    private static final String countId = "SELECT COUNT(id) AS jumlah FROM baksos";
+    private static final String lastId = "SELECT id AS akhir FROM baksos ORDER BY id DESC LIMIT 1";
+    private static final String detail = "SELECT b.id, b.kode, b.deskripsi, b.tgl_baksos, jns.nama AS 'jenis_baksos', b.longitude, b.latitude, b.alamat AS 'alamat_baksos', pj.nama AS 'penanggung_jawab', pj.jabatan AS 'jabatan_pj', pj.alamat AS 'alamat_pj', kr.nama AS 'korwil_pelaksana', kd.nama AS 'kondisi',br.nama AS 'barang_bantuan', b.qty, b.satuan, ptg.nama AS 'nama_petugas', krw.nama AS 'korwil_petugas', b.ket AS 'status' FROM ((((((( baksos b JOIN jenis jns ON b.id_jenis = jns.id ) JOIN penanggung_jawab pj ON b.id_pj = pj.id) JOIN korwil kr ON b.id_korwil = kr.id) JOIN keadaan kd ON b.id_keadaan = kd.id) JOIN barang br ON kd.id = br.id_keadaan) JOIN petugas ptg ON b.id_user = ptg.id ) JOIN korwil krw ON ptg.id_korwil = krw.id) WHERE b.kode = ?";
 
     @Autowired
     private JdbcTemplate jdbc;
@@ -91,7 +93,7 @@ public class BaksosDaoImpl implements BaksosDao {
     }
 
     @Override
-    public List<Baksos> findById(Integer id) {
+    public List<Baksos> findById(Long id) {
         return jdbc.query(findById, new Object[]{id}, new BaksosRowMapper());
     }
 
@@ -101,8 +103,18 @@ public class BaksosDaoImpl implements BaksosDao {
     }
 
     @Override
-    public List<String> getLastKode() {
-        return jdbc.query(countKode, new KodeRowMapper());
+    public List<String> getCountId() {
+        return jdbc.query(countId, new KodeRowMapper());
+    }
+
+    @Override
+    public List<String> getLastId() {
+        return jdbc.query(lastId, new IdRowMapper());
+    }
+
+    @Override
+    public List<BaksosDetail> getDetail(String kode) {
+        return jdbc.query(detail, new Object[]{kode}, new BaksosDetailRowMapper());
     }
 
     @Override
@@ -143,6 +155,40 @@ public class BaksosDaoImpl implements BaksosDao {
         @Override
         public String mapRow(ResultSet resultSet, int i) throws SQLException {
             return resultSet.getString("jumlah");
+        }
+    }
+
+    private class IdRowMapper implements RowMapper<String> {
+        @Override
+        public String mapRow(ResultSet resultSet, int i) throws SQLException {
+            return resultSet.getString("akhir");
+        }
+    }
+
+    private class BaksosDetailRowMapper implements RowMapper<BaksosDetail> {
+        @Override
+        public BaksosDetail mapRow(ResultSet rs, int i) throws SQLException {
+            BaksosDetail bd = new BaksosDetail();
+            bd.setId(rs.getLong("id"));
+            bd.setKode(rs.getString("kode"));
+            bd.setDeskripsi(rs.getString("deskripsi"));
+            bd.setTgl_baksos(rs.getString("tgl_baksos"));
+            bd.setJenis_baksos(rs.getString("jenis_baksos"));
+            bd.setLongitude(rs.getString("longitude"));
+            bd.setLatitude(rs.getString("latitude"));
+            bd.setAlamat_baksos(rs.getString("alamat_baksos"));
+            bd.setPenanggung_jawab(rs.getString("penanggung_jawab"));
+            bd.setJabatan_pj(rs.getString("jabatan_pj"));
+            bd.setAlamat_pj(rs.getString("alamat_pj"));
+            bd.setKorwil_pelaksana(rs.getString("korwil_pelaksana"));
+            bd.setKondisi(rs.getString("kondisi"));
+            bd.setBarang_bantuan(rs.getString("barang_bantuan"));
+            bd.setQty(rs.getString("qty"));
+            bd.setSatuan(rs.getString("satuan"));
+            bd.setNama_petugas(rs.getString("nama_petugas"));
+            bd.setKorwil_petugas(rs.getString("korwil_petugas"));
+            bd.setStatus(rs.getString("status"));
+            return bd;
         }
     }
 }

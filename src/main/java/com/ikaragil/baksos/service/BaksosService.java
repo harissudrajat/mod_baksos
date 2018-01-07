@@ -12,4 +12,6 @@ public interface BaksosService extends BaseService<Baksos> {
     Map findByStatus(Search search);
 
     Map findByKode(Search search);
+
+    Map getDetail(Search search);
 }
